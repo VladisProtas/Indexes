@@ -29,8 +29,7 @@
 ---
 
 ```
-SELECT table_schema as DB_name
-	,CONCAT(ROUND((SUM(index_length))*100/(SUM(data_length+index_length)),2),'%') '% of index'
+SELECT table_schema as DB_name, CONCAT(ROUND((SUM(index_length))*100/(SUM(data_length+index_length)),2),'%') '% of index'
 FROM information_schema.TABLES where TABLE_SCHEMA = 'sakila'
 ```
 
@@ -42,9 +41,11 @@ FROM information_schema.TABLES where TABLE_SCHEMA = 'sakila'
 
 Выполните explain analyze следующего запроса:
 
+```
 select distinct concat(c.last_name, ' ', c.first_name), sum(p.amount) over (partition by c.customer_id, f.title)
 from payment p, rental r, customer c, inventory i, film f
 where date(p.payment_date) = '2005-07-30' and p.payment_date = r.rental_date and r.customer_id = c.customer_id and i.inventory_id = r.inventory_id
+```
 
 1) перечислите узкие места;
 2) оптимизируйте запрос: внесите корректировки по использованию операторов, при необходимости добавьте индексы.
@@ -55,9 +56,11 @@ where date(p.payment_date) = '2005-07-30' and p.payment_date = r.rental_date and
 
 Оптимизация:
 
+```
 select distinct concat(c.last_name, ' ', c.first_name), sum(p.amount) over (partition by c.customer_id)
 from payment p, customer c
 where date(p.payment_date) = '2005-07-30' and p.customer_id = c.customer_id 
+```
 
 ---
 
