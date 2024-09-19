@@ -70,6 +70,10 @@ where date(p.payment_date) = '2005-07-30' and p.customer_id = c.customer_id
 
 ---
 
-В PostgreSQL используются следующие типы индексов, которые отсутствуют в MySQL: 1) GiST (Generalized Search Tree). 2) SP-GiST (Space-Partitioned Generalized Search Tree). 3) GIN (Generalized Inverted Index). 4) RUM (Relevant Universal Mapping).
+В PostgreSQL используются следующие типы индексов, которые отсутствуют в MySQL: 
+1) GiST (Generalized Search Tree).
+2) SP-GiST (Space-Partitioned Generalized Search Tree).
+3) GIN (Generalized Inverted Index).
+4) RUM (Relevant Universal Mapping).
 
 ---
