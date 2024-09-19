@@ -28,9 +28,9 @@
 
 ---
 
-SELECT table_schema as DB_name
+```SELECT table_schema as DB_name
 	,CONCAT(ROUND((SUM(index_length))*100/(SUM(data_length+index_length)),2),'%') '% of index'
-FROM information_schema.TABLES where TABLE_SCHEMA = 'sakila'
+FROM information_schema.TABLES where TABLE_SCHEMA = 'sakila'```
 
 ![alt text](https://github.com/VladisProtas/Indexes/blob/main/img/Снимок.PNG)
 
