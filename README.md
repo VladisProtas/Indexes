@@ -52,15 +52,20 @@ where date(p.payment_date) = '2005-07-30' and p.payment_date = r.rental_date and
 
 ---
 
-После рассмотрения первоначального запроса было установлено, что наиболее проблемным моментом в предложенном запросе является то, что оконная функция работает с лишними таблицами, а именно inventory, rental и film. Поскольку необходимо подсчитать сумму платежей клиентов за определённую дату, обработка и соединение этих таблиц нецелесообразны, так как данные из них не используются далее. Все необходимые сведения содержатся в таблицах payment и customer, следовательно, остальные таблицы можно исключить.
+После рассмотрения первоначального запроса было установлено, что наиболее проблемным моментом в предложенном запросе является то, что оконная функция работает с лишней таблицой, а именно - film. Поскольку необходимо подсчитать сумму платежей клиентов за определённую дату, обработка и соединение этой таблицы с другими нецелесообразны, так как данные из неё используются далее.
 
 Оптимизация:
 
 ```
-select distinct concat(c.last_name, ' ', c.first_name), sum(p.amount) over (partition by c.customer_id)
-from payment p, customer c
-where date(p.payment_date) = '2005-07-30' and p.customer_id = c.customer_id 
+explain analyze
+select distinct concat(c.last_name, ' ', c.first_name), sum(p.amount)
+from payment p join customer c on c.customer_id = p.customer_id
+where p.payment_date >= '2005-07-30' and p.payment_date < date_add('2005-07-30', INTERVAL 1 DAY)
+group by p.customer_id;
 ```
+
+![alt text](https://github.com/VladisProtas/Indexes/blob/main/img/Снимок4.PNG)
+![alt text](https://github.com/VladisProtas/Indexes/blob/main/img/Снимок5.PNG)
 
 ---
 
